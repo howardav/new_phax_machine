@@ -32,7 +32,7 @@ The application utilizes the [Phaxio API](https://www.phaxio.com/) for faxing, t
 
 #### The easy way (click this button):
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/mwmayerle/new_phax_machine)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/phaxio/new_phax_machine)
 
 You'll notice a number of fields that need to be populated (e.g. App Name and the Config Variables). Choose an App name, and populate the API credentials fields with your production [API credentials from Phaxio](https://console.phaxio.com/apiSettings).
 

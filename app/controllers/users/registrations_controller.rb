@@ -138,6 +138,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
 	  end
 
 	  def verify_fax_numbers
+      return if sign_up_params[:caller_id_number].blank?
+
 	  	# Admins do not have an associated organization, otherwise compare the current_user.org.id to the desired caller_id_number
 	  	if is_admin?
 	  		existing_numbers = FaxNumber.where(fax_number: sign_up_params[:caller_id_number], organization_id: sign_up_params[:organization_id])
