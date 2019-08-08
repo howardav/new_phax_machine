@@ -6,5 +6,5 @@
 	<p style="font-size: 1.1em;line-height: 1.7em;">Hello <%= @resource.email %>!</p>
 	<p style="font-size: 1.1em;line-height: 1.7em;">You've been invited to manage <%= @resource.organization.label %></p>
 	<p style="font-size: 1.1em;line-height: 1.7em;">Click the link below to set up your account and start faxing.</p>
-	<p style="font-size: 1.1em;line-height: 1.7em;"><%= link_to "Set Up Account", users_password_set_new_user_password_url(@resource, reset_password_token: @token)%></p>
+	<p style="font-size: 1.1em;line-height: 1.7em;"><%= link_to "Set Up Account", users_password_set_new_user_password_url(reset_password_token: @token)%></p>
 </body>
