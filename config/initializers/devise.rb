@@ -4,14 +4,14 @@
 # Many of these configuration options can be set straight in your model.
 Devise.setup do |config|
 
-	
+
   # The secret key used by Devise. Devise uses this key to generate
   # random tokens. Changing this key will render invalid all existing
   # confirmation, reset password and unlock tokens in the database.
   # Devise will use the `secret_key_base` as its `secret_key`
   # by default. You can change it below and use your own secret key.
   config.secret_key = 'ea175aa412cd3fd97fded85d08df302ad53ecfd6038fcc1d3d26653ef8eb93cd483459d3c0abc02445158c58b538d3062933a012eed1d9b85c4866b780226f66'
-  
+
   # ==> Controller configuration
   # Configure the parent class to the devise controllers.
   # config.parent_controller = 'DeviseController'
@@ -20,7 +20,7 @@ Devise.setup do |config|
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class
   # with default "from" parameter.
-  config.mailer_sender = 'phax_machine@phaxio.com'
+  config.mailer_sender = ENV.fetch('FROM_EMAIL', 'phax_machine@phaxio.com')
 
   # Configure the class responsible to send e-mails.
   config.mailer = 'PhaxMachineMailer'
