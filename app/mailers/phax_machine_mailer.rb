@@ -1,7 +1,7 @@
-class PhaxMachineMailer < Devise::Mailer   
+class PhaxMachineMailer < Devise::Mailer
   helper :application
 	include Devise::Mailers::Helpers
-  include Devise::Controllers::UrlHelpers 
+  include Devise::Controllers::UrlHelpers
   default template_path: 'devise/mailer'
   ALTERNATE_LOGO_PATH = 'https://image4.owler.com/logo/phaxio_owler_20180322_183958_original.png'.freeze
 
@@ -14,7 +14,7 @@ class PhaxMachineMailer < Devise::Mailer
   end
 
   def user_welcome_invite(record, token, opts = {})
-  	record.manager ? opts[:from] = record.manager.email : opts[:from] = 'phax_machine@phax_machine.com'
+  	opts[:from] = record.manager&.email || ENV.fetch('FROM_EMAIL', 'phax_machine@phaxio.com')
   	opts[:subject] = "You've been invited to Phax Machine."
     @token = token
     @logo_link = LogoLink.first ? LogoLink.first.logo_url : ALTERNATE_LOGO_PATH
