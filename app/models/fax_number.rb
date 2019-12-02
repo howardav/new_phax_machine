@@ -19,7 +19,7 @@ class FaxNumber < ApplicationRecord
 
 	validates :fax_number, presence: true, length: { maximum: FAX_NUMBER_DIGIT_LIMIT }, phone: {possible: true}, uniqueness: true
 	validates :label, :manager_label, length: { maximum: FAX_NUMBER_CHARACTER_LIMIT }
-	
+
 	before_validation :fax_number, :format_fax_number
 
 	private
@@ -61,7 +61,7 @@ class FaxNumber < ApplicationRecord
 
 			def format_area_codes(area_codes_from_api, options, area_codes = {})
 				area_codes_from_api = area_codes_from_api.sort_by { |area_code| area_code['area_code'] }
-				
+
 				area_codes_from_api.each do |area_code_object|
 					area_codes[area_code_object['area_code'].to_s] = {
 						city: area_code_object['city'],
@@ -81,7 +81,7 @@ class FaxNumber < ApplicationRecord
 			def format_and_retrieve_fax_numbers_from_api
 				Fax.set_phaxio_creds
 				begin
-					api_response = Phaxio::PhoneNumber.list
+					api_response = Phaxio::PhoneNumber.list per_page: 1000
 				rescue Phaxio::Error::PhaxioError => error
 					api_response = error.message
 				end
@@ -114,7 +114,7 @@ class FaxNumber < ApplicationRecord
 							db_number.update_attributes(has_webhook_url: !!api_fax_number[:callback_url])
 						end
 					end
-					
+
 					phaxio_numbers[api_fax_number[:phone_number]][:id] = db_number.id
 
 					# Add associated Organization data to hash
@@ -137,7 +137,7 @@ class FaxNumber < ApplicationRecord
 					deleted_numbers = self.where.not({fax_number: phaxio_numbers.keys}).destroy_all
 					# If a user has a deleted number as a caller_id_number, reset user's caller_id_number to nil
 					deleted_numbers.each do |deleted_number|
-						User.where(caller_id_number: deleted_number.fax_number).each do |user| 
+						User.where(caller_id_number: deleted_number.fax_number).each do |user|
 							user.update_attributes(caller_id_number: nil)
 						end
 						UserFaxNumber.where(fax_number_id: deleted_number.id).each do |user_fax_number|
@@ -151,7 +151,7 @@ class FaxNumber < ApplicationRecord
 
 			# Moves all fax numbers with a fax number specific callback_url attribute to the bottom of the fax_number list
 			def sort_fax_numbers_by_callback_url(phaxio_numbers)
-				phaxio_numbers = phaxio_numbers.sort_by do |fax_number, data_hash| 
+				phaxio_numbers = phaxio_numbers.sort_by do |fax_number, data_hash|
 					data_hash[:callback_url] ? 1 : data_hash[:callback_url] <=> data_hash[:callback_url]
 				end
 				phaxio_numbers.to_h
