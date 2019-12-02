@@ -1,6 +1,6 @@
 class FaxNumbersController < ApplicationController
 	include SessionsHelper
-	
+
 	before_action :verify_is_admin, only: [:index]
 	before_action :set_fax_number, only: [:edit, :update]
 	before_action :verify_authorized, except: [:create, :new]
@@ -12,7 +12,7 @@ class FaxNumbersController < ApplicationController
 		if area_codes.is_a?(String)
 			flash[:alert] = area_codes
 			# Weird redirect because the root path for admin is the fax_num index, so this avoids and infinite redirect loop
-			redirect_to(fax_logs_path) 
+			redirect_to(fax_logs_path)
 		else
 			@area_codes = area_codes
 			@states = FaxNumber.create_states_for_numbers(area_codes)
@@ -109,7 +109,7 @@ class FaxNumbersController < ApplicationController
 		end
 
 		def remove_user_associations(param_input, fax_number_object)
-			destroyed_associations = param_input.keys.each do |user_object_id| 
+			destroyed_associations = param_input.keys.each do |user_object_id|
 				UserFaxNumber.where( { user_id: user_object_id, fax_number_id: @fax_number.id} ).destroy_all
 			end
 		end
